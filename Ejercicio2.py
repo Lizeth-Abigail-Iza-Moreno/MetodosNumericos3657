@@ -1,25 +1,24 @@
-#Grafique de ambas funciones en el mismo gráfico
-#Importamos las librerias matplolib y numpy y las renombra para invocarla como np y plt
-import matplotlib.pyplot as plt
-import numpy as np
-#definimos las funcion cuadratica y racional
-def f(x):
-    return x**2-x+1
-def g(x):
-    return 2/(x-1)
-#coordenadas del eje x
-x=np.linspace(-30,30,1000)
-fig=plt.figure(figsize=(8,4))
-#Graficamos y colocamos el color a cada una de las funciones
-plt.plot(x,f(x),'r--',label='f(x)=$x^2-x+1$')
-plt.plot(x,g(x),'b',label='$g(x)=2/x-1$')
-#Damos nombres al eje 'X' y 'Y'
-plt.xlabel('x')
-plt.ylabel('y')
-#Limita los valores de los ejes
-plt.xlim(-20,20)
-plt.ylim(-20,20)
-plt.grid(True) #coloca cuadriculas
-plt.title('Gráfica de funciones') #titulo de la gráfica
-plt.legend(loc = 1)
-plt.show() #Mostramos las graficas
+import numpy as np #Importamos la matriz numpy
+MAT_B=np.array([[4 , 6 , 10],  #Definimos la matriz B
+                [6 , 3 , 19],
+                [10 , 19 , 62]])
+def cholesky(MAT_B): #Método de descomposición de  cholesky
+    MAT_B = np.array(MAT_B,float)
+    L = np.zeros_like(MAT_B)
+    n,_= np.shape(MAT_B)
+    for j in range(n):
+        for i in range(j, n):
+            if i == j:
+                L[i, j] = np.sqrt(MAT_B[i, j] - np.sum(L[i, :j] ** 2))
+            else:
+                L[i, j] = (MAT_B[i, j] - np.sum(L[i, :j] * L[j, :j])) / L[j, j]
+    return L
+l=cholesky(MAT_B)
+Tl=np.transpose(l) #Matriz Transpuesta
+print("\t******Programa Descomposición de Cholesky******")
+print("La Matriz B:")
+print(MAT_B)
+print("\nLa Matriz L es :")
+print(l)
+print("\nLa Matriz Transpuesta de L :")
+print(Tl)
